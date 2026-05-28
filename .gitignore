@@ -1,0 +1,33 @@
+# Rust
+/target
+**/target
+Cargo.lock.bak
+**/*.rs.bk
+*.pdb
+
+# IDE
+.vscode/
+.idea/
+*.iml
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Emulator artifacts
+*.sav
+*.rtc
+*.state
+saves/
+screenshots/
+
+# Test ROMs are not committed (copyright)
+/tests/roms/**
+!/tests/roms/.gitkeep
+
+# Boot ROMs are copyrighted
+*.bin
+assets/bootrom/
+
+# Docs
+docs/

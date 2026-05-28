@@ -1,0 +1,28 @@
+[package]
+name = "gb-frontend-sdl"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+description = "Desktop SDL2 frontend for gb-core."
+
+[[bin]]
+name = "gb"
+path = "src/main.rs"
+
+[dependencies]
+gb-core = { workspace = true }
+anyhow = { workspace = true }
+log = { workspace = true }
+env_logger = { workspace = true }
+clap = { workspace = true }
+
+# SDL2 is intentionally an optional dep guarded by a feature so this crate
+# builds in CI without native libs. Enable with: --features sdl
+sdl2 = { version = "0.37", optional = true }
+
+[features]
+default = []
+sdl = ["dep:sdl2"]

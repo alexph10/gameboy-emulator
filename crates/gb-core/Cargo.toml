@@ -1,0 +1,20 @@
+[package]
+name = "gb-core"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+description = "Cycle-accurate Nintendo Game Boy (DMG) emulator core. Pure logic, no I/O."
+
+[lib]
+path = "src/lib.rs"
+
+[dependencies]
+thiserror = { workspace = true }
+log = { workspace = true }
+bitflags = { workspace = true }
+
+[dev-dependencies]
+env_logger = { workspace = true }

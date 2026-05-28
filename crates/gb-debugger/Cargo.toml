@@ -1,0 +1,18 @@
+[package]
+name = "gb-debugger"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+description = "Headless CLI tools: ROM info, disassembly, test ROM runner."
+
+[[bin]]
+name = "gb-info"
+path = "src/main.rs"
+
+[dependencies]
+gb-core = { workspace = true }
+anyhow = { workspace = true }
+clap = { workspace = true }

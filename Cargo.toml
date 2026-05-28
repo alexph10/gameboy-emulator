@@ -1,0 +1,33 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/gb-core",
+    "crates/gb-frontend-sdl",
+    "crates/gb-debugger",
+]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.80"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/alexph10/gameboy-emulator"
+authors = ["alexph10"]
+
+[workspace.dependencies]
+gb-core = { path = "crates/gb-core" }
+thiserror = "1"
+log = "0.4"
+env_logger = "0.11"
+bitflags = "2"
+anyhow = "1"
+clap = { version = "4", features = ["derive"] }
+
+[profile.release]
+opt-level = 3
+lto = "thin"
+codegen-units = 1
+debug = false
+
+[profile.dev]
+opt-level = 1   # emulators are unusable in pure debug; keep some opt
