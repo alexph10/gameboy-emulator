@@ -4,7 +4,7 @@ use bitflags::bitflags;
 
 bitflags! {
     /// Flags packed into the low nibble of register F.
-    #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+    #[derive(Debug, Clone, Copy, Default, PartialEq, Eq)]
     pub struct Flags: u8 {
         const Z = 0b1000_0000; // Zero
         const N = 0b0100_0000; // Subtract (BCD)

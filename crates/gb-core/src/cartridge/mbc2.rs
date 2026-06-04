@@ -27,4 +27,13 @@ impl Mapper for Mbc2 {
         let idx = (addr - 0xA000) as usize & 0x1FF;
         self.ram[idx] = val & 0x0F;
     }
+
+    fn ram(&self) -> Option<&[u8]> { Some(&self.ram) }
+
+    fn load_ram(&mut self, data: &[u8]) {
+        let n = data.len().min(self.ram.len());
+        for (slot, src) in self.ram.iter_mut().zip(data.iter()).take(n) {
+            *slot = *src & 0x0F;
+        }
+    }
 }

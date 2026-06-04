@@ -14,6 +14,7 @@ pub mod apu;
 pub mod bus;
 pub mod cartridge;
 pub mod cpu;
+pub mod hdma;
 pub mod interrupts;
 pub mod joypad;
 pub mod ppu;
@@ -23,6 +24,7 @@ pub mod timer;
 mod gameboy;
 
 pub use gameboy::{Gameboy, GameboyOptions};
+pub use interrupts::IntFlags;
 pub use joypad::{Button, JoypadState};
 pub use ppu::{FrameBuffer, SCREEN_HEIGHT, SCREEN_WIDTH};
 

@@ -31,7 +31,13 @@ pub struct Joypad {
 impl Joypad {
     pub fn new() -> Self { Self::default() }
 
-    pub fn set_state(&mut self, state: JoypadState) { self.state = state; }
+    /// Update the held-button state. Returns `true` if a button transitioned
+    /// from "not pressed" to "pressed", which should trigger `IF.JOYPAD`.
+    pub fn set_state(&mut self, state: JoypadState) -> bool {
+        let any_press = !self.state.bits() & state.bits() != 0;
+        self.state = state;
+        any_press
+    }
 
     pub fn read(&self) -> u8 {
         // Hardware reads 0 when a button is pressed.

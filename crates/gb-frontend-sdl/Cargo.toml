@@ -21,8 +21,13 @@ clap = { workspace = true }
 
 # SDL2 is intentionally an optional dep guarded by a feature so this crate
 # builds in CI without native libs. Enable with: --features sdl
-sdl2 = { version = "0.37", optional = true }
+sdl2 = { version = "0.37", optional = true, default-features = false }
 
 [features]
 default = []
+# Dynamic-link to an SDL2 already on the system. On Windows that means
+# SDL2.dll next to the .exe (or on PATH). On Linux/macOS, system SDL2.
 sdl = ["dep:sdl2"]
+# Build SDL2 from source and statically link. Requires a C toolchain + CMake.
+# Best UX on Windows: `cargo run -p gb-frontend-sdl --features sdl-bundled`
+sdl-bundled = ["sdl", "sdl2/bundled", "sdl2/static-link"]

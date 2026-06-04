@@ -18,6 +18,16 @@ pub trait Mapper: std::fmt::Debug {
     fn write_rom(&mut self, addr: u16, val: u8);
     fn read_ram(&self, addr: u16) -> u8;
     fn write_ram(&mut self, addr: u16, val: u8);
+
+    /// External (cartridge) RAM contents, if the cartridge has any. Used by
+    /// frontends to persist battery saves between sessions. Default returns
+    /// nothing — only mappers with battery-backed RAM need to override.
+    fn ram(&self) -> Option<&[u8]> { None }
+
+    /// Reload external RAM contents from a save file. Default is a no-op.
+    /// Implementations must silently truncate / ignore size mismatches so
+    /// users can't crash the emulator with a wrong-sized `.sav`.
+    fn load_ram(&mut self, _data: &[u8]) {}
 }
 
 #[derive(Debug)]
@@ -47,4 +57,14 @@ impl Cartridge {
     pub fn write_rom(&mut self, addr: u16, val: u8) { self.mapper.write_rom(addr, val) }
     pub fn read_ram(&self, addr: u16) -> u8 { self.mapper.read_ram(addr) }
     pub fn write_ram(&mut self, addr: u16, val: u8) { self.mapper.write_ram(addr, val) }
+
+    /// Battery-backed external RAM contents (for `.sav` persistence).
+    pub fn ram(&self) -> Option<&[u8]> { self.mapper.ram() }
+
+    /// Replace external RAM contents from a `.sav` file at load time.
+    pub fn load_ram(&mut self, data: &[u8]) { self.mapper.load_ram(data); }
+
+    /// `true` if the cartridge has battery-backed RAM that should be
+    /// persisted across sessions.
+    pub fn has_battery(&self) -> bool { self.header.has_battery() }
 }

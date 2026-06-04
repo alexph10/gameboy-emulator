@@ -1,0 +1,7 @@
+# Workspace-scoped Cargo configuration.
+#
+# Required for `cargo build -p gb-frontend-sdl --features sdl-bundled` on
+# Windows: SDL2's bundled CMakeLists.txt declares cmake_minimum_required
+# 2.x, which CMake 4 refuses to honor without an explicit opt-in.
+[env]
+CMAKE_POLICY_VERSION_MINIMUM = "3.5"

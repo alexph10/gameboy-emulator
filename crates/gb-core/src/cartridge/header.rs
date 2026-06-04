@@ -26,7 +26,7 @@ impl Header {
             .collect();
 
         let cart_type = rom[0x0147];
-        let rom_size_bytes = 32 * 1024usize << rom[0x0148] as usize;
+        let rom_size_bytes = (32 * 1024usize) << rom[0x0148] as usize;
         let ram_size_bytes = match rom[0x0149] {
             0x00 => 0,
             0x01 => 2 * 1024,    // 2 KiB (unused on official carts but valid)
@@ -52,5 +52,31 @@ impl Header {
             sgb_flag: rom[0x0146],
             header_checksum_ok,
         })
+    }
+
+    /// True if the cartridge header's CGB flag (`0x0143`) requests CGB hardware
+    /// features. `0x80` = "CGB enhanced, DMG compatible", `0xC0` = "CGB only".
+    /// All other values mean DMG-only.
+    pub fn is_cgb(&self) -> bool {
+        matches!(self.cgb_flag, 0x80 | 0xC0)
+    }
+
+    /// True for cart types that include battery-backed external RAM (or RTC),
+    /// per the cartridge-type table in Pan Docs §The Cartridge Header.
+    pub fn has_battery(&self) -> bool {
+        matches!(
+            self.cart_type,
+            0x03 // MBC1+RAM+BATTERY
+            | 0x06 // MBC2+BATTERY
+            | 0x09 // ROM+RAM+BATTERY
+            | 0x0D // MMM01+RAM+BATTERY
+            | 0x0F // MBC3+TIMER+BATTERY
+            | 0x10 // MBC3+TIMER+RAM+BATTERY
+            | 0x13 // MBC3+RAM+BATTERY
+            | 0x1B // MBC5+RAM+BATTERY
+            | 0x1E // MBC5+RUMBLE+RAM+BATTERY
+            | 0x22 // MBC7+SENSOR+RUMBLE+RAM+BATTERY
+            | 0xFF // HuC1+RAM+BATTERY
+        )
     }
 }

@@ -18,3 +18,4 @@ bitflags = { workspace = true }
 
 [dev-dependencies]
 env_logger = { workspace = true }
+png = "0.17"
